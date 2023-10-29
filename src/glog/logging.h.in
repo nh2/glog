@@ -633,7 +633,7 @@ GLOG_EXPORT bool IsGoogleLoggingInitialized();
 GLOG_EXPORT void ShutdownGoogleLogging();
 
 #if defined(__GNUC__)
-typedef void (*logging_fail_func_t)() __attribute__((noreturn));
+typedef void (*logging_fail_func_t)();
 #else
 typedef void (*logging_fail_func_t)();
 #endif
@@ -1551,7 +1551,7 @@ public:
   // A special constructor used for check failures
   LogMessage(const char* file, int line, const CheckOpString& result);
 
-  ~LogMessage();
+  ~LogMessage() noexcept(false);
 
   // Flush a buffered message to the sink set in the constructor.  Always
   // called by the destructor, it may also be called from elsewhere if
@@ -1568,7 +1568,7 @@ public:
   void SendToSyslogAndLog();  // Actually dispatch to syslog and the logs
 
   // Call abort() or similar to perform LOG(FATAL) crash.
-  static void @ac_cv___attribute___noreturn@ Fail();
+  static void Fail();
 
   std::ostream& stream();
 
@@ -1619,7 +1619,7 @@ class GLOG_EXPORT LogMessageFatal : public LogMessage {
  public:
   LogMessageFatal(const char* file, int line);
   LogMessageFatal(const char* file, int line, const CheckOpString& result);
-  @ac_cv___attribute___noreturn@ ~LogMessageFatal();
+  ~LogMessageFatal() noexcept(false);
 };
 
 // A non-macro interface to the log facility; (useful

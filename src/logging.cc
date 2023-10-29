@@ -1720,7 +1720,7 @@ const LogMessageTime& LogMessage::getLogMessageTime() const {
   return logmsgtime_;
 }
 
-LogMessage::~LogMessage() {
+LogMessage::~LogMessage() noexcept(false) {
   Flush();
 #ifdef GLOG_THREAD_LOCAL_STORAGE
   if (data_ == static_cast<void*>(&thread_msg_data)) {
@@ -2553,7 +2553,7 @@ LogMessageFatal::LogMessageFatal(const char* file, int line,
                                  const CheckOpString& result) :
     LogMessage(file, line, result) {}
 
-LogMessageFatal::~LogMessageFatal() {
+LogMessageFatal::~LogMessageFatal() noexcept(false) {
     Flush();
     LogMessage::Fail();
 }
